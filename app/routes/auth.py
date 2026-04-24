@@ -27,6 +27,7 @@ class RegisterRequest(BaseModel):
     phone: Optional[str] = None
     al_stream: Optional[str] = None
     interests: Optional[List[str]] = []
+    strengths: Optional[List[str]] = []
     career_goal: Optional[str] = None
     al_results: Optional[List[ALResult]] = []
 
@@ -89,8 +90,9 @@ def register(body: RegisterRequest):
             passwordHash: $passwordHash,
             phone: $phone,
             alStream: $alStream,
-            careerGoal: $careerGoal,
             interests: $interests,
+            strengths: $strengths,
+            careerGoal: $careerGoal,
             alResults: $alResults,
             createdAt: $createdAt
         })
@@ -102,8 +104,9 @@ def register(body: RegisterRequest):
             "passwordHash": password_hash,
             "phone": body.phone or "",
             "alStream": body.al_stream or "",
-            "careerGoal": body.career_goal or "",
             "interests": body.interests or [],
+            "strengths": body.strengths or [],
+            "careerGoal": body.career_goal or "",
             "alResults": al_results_str,
             "createdAt": created_at,
         },
