@@ -8,9 +8,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies first (layer-cached unless requirements change)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Install CPU-only PyTorch first (saves ~2GB vs the default CUDA build)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install remaining requirements — skip torch lines (already installed above)
+RUN grep -v "^torch" requirements.txt | pip install --no-cache-dir -r /dev/stdin
 
 # Pre-download the sentence-transformer model so first request isn't slow
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
