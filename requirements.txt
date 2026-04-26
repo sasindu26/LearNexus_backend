@@ -1,4 +1,6 @@
 APScheduler==3.10.4
+bcrypt==4.2.1
+python-jose[cryptography]==3.3.0
 annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.13.0
