@@ -33,6 +33,11 @@ app.add_middleware(
 )
 
 
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"Unhandled exception on {request.url}: {exc}")
